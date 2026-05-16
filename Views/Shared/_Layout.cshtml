@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GestionDeEspacios</title>
+
+    <!-- Materialize CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Google Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/GestionDeEspacios.styles.css" asp-append-version="true" />
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            background: #f4f7f9;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .brand-logo {
+            font-weight: 700;
+            font-size: 1.5rem !important;
+            padding-left: 15px;
+        }
+
+        nav {
+            background: linear-gradient(90deg, #0d47a1, #1565c0);
+        }
+
+        .nav-wrapper ul li a {
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-wrapper ul li a:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        footer {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 18px 0;
+        }
+
+        footer a {
+            color: #90caf9;
+        }
+
+        .page-container {
+            width: 95%;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav>
+            <div class="nav-wrapper page-container">
+
+                <a asp-controller="Home" asp-action="Index" class="brand-logo">
+                    <i class="material-icons left">sports_soccer</i>
+                    SportManager
+                </a>
+
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+                    <i class="material-icons">menu</i>
+                </a>
+
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <a asp-controller="Home" asp-action="Index">
+                            <i class="material-icons left">dashboard</i>Inicio
+                        </a>
+                    </li>
+
+                    <li>
+                        <a asp-controller="Reservation" asp-action="Index">
+                            <i class="material-icons left">event</i>Reservas
+                        </a>
+                    </li>
+
+                    <li>
+                        <a asp-controller="SportSpaces" asp-action="Index">
+                            <i class="material-icons left">stadium</i>Espacios
+                        </a>
+                    </li>
+
+                    <li>
+                        <a asp-controller="User" asp-action="Index">
+                            <i class="material-icons left">group</i>Usuarios
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+        <!-- MOBILE MENU -->
+        <ul class="sidenav" id="mobile-demo">
+            <li><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+            <li><a asp-controller="Reservation" asp-action="Index">Reservas</a></li>
+            <li><a asp-controller="SportSpaces" asp-action="Index">Espacios</a></li>
+            <li><a asp-controller="User" asp-action="Index">Usuarios</a></li>
+        </ul>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+        <div class="page-container">
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container center-align">
+            © 2026 GestionDeEspacios · Plataforma de gestión deportiva
+        </div>
+    </footer>
+
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            M.Sidenav.init(document.querySelectorAll('.sidenav'));
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

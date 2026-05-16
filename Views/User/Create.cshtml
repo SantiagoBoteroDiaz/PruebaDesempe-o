@@ -1,0 +1,128 @@
+@model GestionDeEspacios.Models.User
+
+@{
+    ViewData["Title"] = "Nuevo Usuario";
+}
+
+<div class="section">
+
+    <!-- HEADER -->
+    <div class="row valign-wrapper">
+        <div class="col s12 m8">
+            <h4 style="font-weight:700;">Crear Usuario</h4>
+            <p class="grey-text text-darken-1">
+                Registra un nuevo usuario en la plataforma.
+            </p>
+        </div>
+
+        <div class="col s12 m4 right-align">
+            <a asp-action="Index"
+               class="btn grey lighten-3 black-text waves-effect">
+                <i class="material-icons left">arrow_back</i>
+                Volver
+            </a>
+        </div>
+    </div>
+
+    <!-- FORM CENTERED -->
+    <div class="row">
+        <div class="col s12 m10 l8 offset-m1 offset-l2">
+
+            <div class="card z-depth-2" style="border-radius:22px;">
+                <div class="card-content" style="padding:35px;">
+
+                    <div class="center-align" style="margin-bottom:25px;">
+                        <i class="material-icons blue-text text-darken-3"
+                           style="font-size:55px;">person_add</i>
+
+                        <h5 style="font-weight:700; margin-top:10px;">
+                            Información del Usuario
+                        </h5>
+                    </div>
+
+                    <form asp-action="Save" method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="red-text"
+                             style="margin-bottom:15px;">
+                        </div>
+
+                        <!-- NAME -->
+                        <div class="input-field">
+                            <i class="material-icons prefix blue-text text-darken-3">
+                                person
+                            </i>
+                            <input asp-for="Name" id="Name" required="required"/>
+                            <label for="Name">Nombre completo</label>
+                            <span asp-validation-for="Name" class="red-text"></span>
+                        </div>
+
+                        <!-- DOCUMENT -->
+                        <div class="input-field">
+                            <i class="material-icons prefix blue-text text-darken-3">
+                                badge
+                            </i>
+                            <input asp-for="Document" id="Document" required="required"/>
+                            <label for="Document">Documento</label>
+                            <span asp-validation-for="Document" class="red-text"></span>
+                        </div>
+
+                        <!-- PHONE -->
+                        <div class="input-field">
+                            <i class="material-icons prefix blue-text text-darken-3">
+                                phone
+                            </i>
+                            <input asp-for="Phone" id="Phone" required="required"/>
+                            <label for="Phone">Teléfono</label>
+                            <span asp-validation-for="Phone" class="red-text"></span>
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="input-field">
+                            <i class="material-icons prefix blue-text text-darken-3">
+                                email
+                            </i>
+                            <input asp-for="Email" id="Email" type="email" required="required" />
+                            <label for="Email">Correo electrónico</label>
+                            <span asp-validation-for="Email" class="red-text"></span>
+                        </div>
+
+                        <!-- BUTTONS -->
+                        <div class="center-align" style="margin-top:30px;">
+
+                            <a asp-action="Index"
+                               class="btn grey lighten-3 black-text waves-effect"
+                               style="border-radius:12px; margin-right:10px;">
+                                Cancelar
+                            </a>
+
+                            <button type="submit"
+                                    class="btn green darken-2 waves-effect waves-light"
+                                    style="border-radius:12px; padding:0 28px;">
+                                <i class="material-icons left">save</i>
+                                Guardar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            M.updateTextFields();
+        });
+    </script>
+}

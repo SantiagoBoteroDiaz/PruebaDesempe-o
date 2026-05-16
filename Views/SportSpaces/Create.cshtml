@@ -1,0 +1,131 @@
+@using GestionDeEspacios.Enums
+@model GestionDeEspacios.Models.SportSpace
+
+@{
+    ViewData["Title"] = "Nuevo Espacio Deportivo";
+}
+
+<div class="section">
+
+    <!-- HEADER -->
+    <div class="row valign-wrapper">
+        <div class="col s12 m8">
+            <h4 style="font-weight:700;">Crear Espacio Deportivo</h4>
+            <p class="grey-text text-darken-1">
+                Registra una nueva cancha o zona deportiva en el sistema.
+            </p>
+        </div>
+
+        <div class="col s12 m4 right-align">
+            <a asp-action="Index"
+               class="btn grey lighten-3 black-text waves-effect">
+                <i class="material-icons left">arrow_back</i>
+                Volver
+            </a>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="row">
+        <div class="col s12 m10 l8 offset-m1 offset-l2">
+
+            <div class="card z-depth-2" style="border-radius:22px;">
+                <div class="card-content" style="padding:35px;">
+
+                    <div class="center-align" style="margin-bottom:25px;">
+                        <i class="material-icons green-text text-darken-2"
+                           style="font-size:55px;">stadium</i>
+
+                        <h5 style="font-weight:700; margin-top:10px;">
+                            Información del Espacio
+                        </h5>
+                    </div>
+
+                    <form asp-action="Create" method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="red-text"
+                             style="margin-bottom:15px;">
+                        </div>
+
+                        <!-- NAME -->
+                        <div class="input-field">
+                            <i class="material-icons prefix green-text text-darken-2">
+                                place
+                            </i>
+
+                            <input asp-for="Name" id="Name" required="required"/>
+                            <label asp-for="Name"></label>
+                            <span asp-validation-for="Name" class="red-text"></span>
+                        </div>
+
+                        <!-- TYPE -->
+                        <div class="input-field">
+                            <i class="material-icons prefix green-text text-darken-2">
+                                sports_soccer
+                            </i>
+
+                            <select asp-for="Type"
+                                    asp-items="Html.GetEnumSelectList<SportSpacesType>()">
+                                <option value="" disabled selected>
+                                    Selecciona un tipo de deporte
+                                </option>
+                            </select>
+
+                            <label asp-for="Type">Tipo de deporte</label>
+                            <span asp-validation-for="Type" class="red-text"></span>
+                        </div>
+
+                        <!-- CAPACITY -->
+                        <div class="input-field">
+                            <i class="material-icons prefix green-text text-darken-2">
+                                groups
+                            </i>
+
+                            <input asp-for="Capacity" id="Capacity" type="number" min="1" required="required"/>
+                            <label asp-for="Capacity"></label>
+                            <span asp-validation-for="Capacity" class="red-text"></span>
+                        </div>
+
+                        <!-- BUTTONS -->
+                        <div class="center-align" style="margin-top:30px;">
+
+                            <a asp-action="Index"
+                               class="btn grey lighten-3 black-text waves-effect"
+                               style="border-radius:12px; margin-right:10px;">
+                                Cancelar
+                            </a>
+
+                            <button type="submit"
+                                    class="btn green darken-2 waves-effect waves-light"
+                                    style="border-radius:12px; padding:0 28px;">
+                                <i class="material-icons left">save</i>
+                                Guardar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    M.FormSelect.init(document.querySelectorAll('select'));
+    M.updateTextFields();
+
+});
+</script>
+}

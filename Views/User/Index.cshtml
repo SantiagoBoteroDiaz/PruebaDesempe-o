@@ -1,0 +1,134 @@
+@model IEnumerable<User> 
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<div class="section">
+    <!-- Message -->
+    @if (TempData["Message"] != null)
+    {
+        <style>
+        .custom-toast{
+            min-width: 420px;
+            padding: 18px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 14px;
+        }
+    </style>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            M.toast({
+                html: '@TempData["Message"]',
+                classes: 'blue darken-3 custom-toast',
+                displayLength: 4000
+            });
+        });
+    </script>
+    }
+    <!-- HEADER -->
+    <div class="row valign-wrapper">
+
+        <!-- LEFT -->
+        <div class="col s12 m6">
+            <h4 style="font-weight:700;">Gestión de Usuarios</h4>
+            <p class="grey-text text-darken-1">
+                Consulta y administra la información de los usuarios registrados.
+            </p>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="col s12 m6 right-align">
+            <a asp-action="Create" asp-controller="User"
+               class="btn green darken-2 waves-effect waves-light">
+                <i class="material-icons left">person_add</i>
+                Nuevo Usuario
+            </a>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="card" style="border-radius:18px;">
+        <div class="card-content">
+
+            <table class="highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Documento</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th class="center-align">Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Document</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Email</td>
+
+                        <td class="center-align">
+
+                            <!-- VIEW -->
+                            <a href="#userModal"
+                               class="btn-small blue darken-3 modal-trigger"
+                               onclick="showUser('@item.Name','@item.Document','@item.Phone','@item.Email')">
+                                <i class="material-icons">visibility</i>
+                            </a>
+
+                            <!-- EDIT -->
+                            <a asp-action="Update"
+                               asp-controller="User"
+                               asp-route-id="@item.Id"
+                               class="btn-small orange darken-2">
+                                <i class="material-icons">edit</i>
+                            </a>
+
+                            <!-- DELETE -->
+                            <a asp-action="Delete"
+                               asp-controller="User"
+                               asp-route-id="@item.Id"
+                               class="btn-small red darken-2">
+                                <i class="material-icons">delete</i>
+                            </a>
+
+                        </td>
+                    </tr>
+                }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- VIEW MODAL -->
+<div id="userModal" class="modal">
+    <div class="modal-content">
+
+        <h5 style="font-weight:700;">Detalle del Usuario</h5>
+
+        <div class="divider" style="margin:15px 0;"></div>
+
+        <p><strong>Nombre:</strong> <span id="viewName"></span></p>
+        <p><strong>Documento:</strong> <span id="viewDocument"></span></p>
+        <p><strong>Teléfono:</strong> <span id="viewPhone"></span></p>
+        <p><strong>Email:</strong> <span id="viewEmail"></span></p>
+
+    </div>
+
+    <div class="modal-footer">
+        <a href="#!" class="modal-close btn blue darken-3">
+            Cerrar
+        </a>
+    </div>
+</div>

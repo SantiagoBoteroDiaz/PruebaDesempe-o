@@ -1,0 +1,184 @@
+@model GestionDeEspacios.ModelView.ReservationViewModel
+@using GestionDeEspacios.Enums
+
+@{
+    ViewData["Title"] = "Editar Reservación";
+}
+
+<div class="section">
+
+    <!-- HEADER -->
+    <div class="row valign-wrapper">
+        <div class="col s12 m8">
+            <h4 style="font-weight:700;">Editar Reservación</h4>
+            <p class="grey-text text-darken-1">
+                Modifica la información de la reserva seleccionada.
+            </p>
+        </div>
+
+        <div class="col s12 m4 right-align">
+            <a asp-action="Index"
+               class="btn grey lighten-3 black-text waves-effect">
+                <i class="material-icons left">arrow_back</i>
+                Volver
+            </a>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="row">
+        <div class="col s12 m10 l8 offset-m1 offset-l2">
+
+            <div class="card z-depth-2" style="border-radius:22px;">
+                <div class="card-content" style="padding:35px;">
+
+                    <div class="center-align" style="margin-bottom:25px;">
+                        <i class="material-icons orange-text text-darken-2"
+                           style="font-size:55px;">edit_calendar</i>
+
+                        <h5 style="font-weight:700; margin-top:10px;">
+                            Actualizar Reserva
+                        </h5>
+                    </div>
+
+                    <form asp-action="Update" method="post">
+
+                        <input type="hidden" asp-for="Reservation.Id" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="red-text"
+                             style="margin-bottom:15px;">
+                        </div>
+
+                        <!-- USER -->
+                        <div class="input-field">
+                            <i class="material-icons prefix orange-text text-darken-2">
+                                person
+                            </i>
+
+                            <select asp-for="Reservation.UserID">
+                                @foreach (var user in Model.Users)
+                                {
+                                    <option value="@user.Id"
+                                            selected="@(user.Id == Model.Reservation.UserID)">
+                                        @user.Name
+                                    </option>
+                                }
+                            </select>
+
+                            <label>Usuario</label>
+                            <span asp-validation-for="Reservation.UserID" class="red-text"></span>
+                        </div>
+                        <!-- Estado -->
+                        <div class="input-field">
+                            <i class="material-icons prefix orange-text text-darken-2">
+                                flag
+                            </i>
+
+                            <select asp-for="Reservation.Status">
+                                @foreach (var status in Enum.GetValues<GestionDeEspacios.Enums.ReservationStatus>())
+                                {
+                                    <option value="@status"
+                                            selected="@(status == Model.Reservation.Status)">
+                                        @status
+                                    </option>
+                                }
+                            </select>
+
+                            <label>Estado</label>
+                            <span asp-validation-for="Reservation.Status" class="red-text"></span>
+                        </div>
+
+                        <!-- SPACE -->
+                        <div class="input-field">
+                            <i class="material-icons prefix orange-text text-darken-2">
+                                stadium
+                            </i>
+
+                            <select asp-for="Reservation.SportId">
+                                @foreach (var space in Model.SportSpaces)
+                                {
+                                    <option value="@space.Id"
+                                            selected="@(space.Id == Model.Reservation.SportId)">
+                                        @space.Name
+                                    </option>
+                                }
+                            </select>
+
+                            <label>Espacio Deportivo</label>
+                            <span asp-validation-for="Reservation.SportId" class="red-text"></span>
+                        </div>
+
+                        <!-- DATE -->
+                        <div class="input-field">
+                            <i class="material-icons prefix orange-text text-darken-2">
+                                calendar_today
+                            </i>
+
+                            <input asp-for="Reservation.Date" type="date" required="required"/>
+                            <label class="active">Fecha</label>
+                            <span asp-validation-for="Reservation.Date" class="red-text"></span>
+                        </div>
+
+                        <!-- START -->
+                        <div class="input-field">
+                            <i class="material-icons prefix orange-text text-darken-2">
+                                access_time
+                            </i>
+
+                            <input asp-for="Reservation.StartTime" type="time" required="required"/>
+                            <label class="active">Hora Inicio</label>
+                            <span asp-validation-for="Reservation.StartTime" class="red-text"></span>
+                        </div>
+
+                        <!-- END -->
+                        <div class="input-field">
+                            <i class="material-icons prefix orange-text text-darken-2">
+                                schedule
+                            </i>
+
+                            <input asp-for="Reservation.EndTime" type="time" required="required"/>
+                            <label class="active">Hora Fin</label>
+                            <span asp-validation-for="Reservation.EndTime" class="red-text"></span>
+                        </div>
+
+                        <!-- BUTTONS -->
+                        <div class="center-align" style="margin-top:30px;">
+
+                            <a asp-action="Index"
+                               class="btn grey lighten-3 black-text waves-effect"
+                               style="border-radius:12px; margin-right:10px;">
+                                Cancelar
+                            </a>
+
+                            <button type="submit"
+                                    class="btn orange darken-2 waves-effect waves-light"
+                                    style="border-radius:12px; padding:0 28px;">
+                                <i class="material-icons left">save</i>
+                                Actualizar
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    M.FormSelect.init(document.querySelectorAll('select'));
+    M.updateTextFields();
+});
+</script>
+}

@@ -1,0 +1,167 @@
+@model IEnumerable<GestionDeEspacios.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Reservaciones";
+}
+
+<div class="section">
+    
+    @if (TempData["Message"] != null)
+    {
+        <style>
+        .custom-toast{
+            min-width: 420px;
+            padding: 18px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 14px;
+        }
+    </style>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            M.toast({
+                html: '@TempData["Message"]',
+                classes: 'blue darken-3 custom-toast',
+                displayLength: 4000
+            });
+        });
+    </script>
+    }   
+    <!-- HEADER -->
+    <div class="row valign-wrapper">
+
+        <div class="col s12 m6">
+            <h4 style="font-weight:700;">Gestión de Reservaciones</h4>
+            <p class="grey-text text-darken-1">
+                Consulta y administra las reservas deportivas registradas.
+            </p>
+        </div>
+
+        <div class="col s12 m6 right-align">
+            <a asp-action="Create"
+               class="btn blue darken-3 waves-effect waves-light">
+                <i class="material-icons left">add</i>
+                Nueva Reserva
+            </a>
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="card" style="border-radius:18px;">
+        <div class="card-content">
+
+            <table class="highlight responsive-table">
+                <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Espacio</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th class="center-align">Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.User?.Name</td>
+                            <td>@item.SportSpace?.Name</td>
+                            <td>@item.Status</td>
+                            <td>@item.Date.ToString("dd/MM/yyyy")</td>
+                            <td>@item.StartTime</td>
+                            <td>@item.EndTime</td>
+
+                            <td class="center-align">
+
+                                <!-- VER -->
+                                <a href="#reservationModal"
+                                   class="btn-small blue darken-3 modal-trigger"
+                                   onclick="showReservation(
+                                        '@item.Id',
+                                        '@item.User?.Name',
+                                        '@item.SportSpace?.Name',
+                                        '@item.Date.ToString("dd/MM/yyyy")',
+                                        '@item.StartTime',
+                                        '@item.EndTime'
+                                   )">
+                                    <i class="material-icons">visibility</i>
+                                </a>
+
+                                <!-- EDITAR -->
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn-small orange darken-2">
+                                    <i class="material-icons">edit</i>
+                                </a>
+
+                                <!-- ELIMINAR -->
+                                <form asp-action="Delete"
+                                      asp-route-id="@item.Id"
+                                      method="post"
+                                      style="display:inline;">
+
+                                    <button type="submit"
+                                            class="btn-small red darken-2"
+                                            onclick="return confirm('¿Eliminar esta reserva?')">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+
+                                </form>
+
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="center-align grey-text">
+                            No hay reservaciones registradas.
+                        </td>
+                    </tr>
+                }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- MODAL -->
+<div id="reservationModal" class="modal">
+    <div class="modal-content">
+
+        <div class="center-align" style="margin-bottom:20px;">
+            <i class="material-icons blue-text text-darken-3"
+               style="font-size:60px;">event_available</i>
+
+            <h5 style="font-weight:700;">Detalle de la Reserva</h5>
+        </div>
+
+        <div class="divider" style="margin:15px 0 25px 0;"></div>
+
+        <p><strong>Usuario:</strong> <span id="viewUser"></span></p>
+        <p><strong>Espacio:</strong> <span id="viewSpace"></span></p>
+        <p><strong>Fecha:</strong> <span id="viewDate"></span></p>
+        <p><strong>Hora Inicio:</strong> <span id="viewStart"></span></p>
+        <p><strong>Hora Fin:</strong> <span id="viewEnd"></span></p>
+
+    </div>
+
+    <div class="modal-footer">
+        <a href="#!"
+           class="modal-close btn grey lighten-3 black-text">
+            Cerrar
+        </a>
+
+    </div>
+</div>
